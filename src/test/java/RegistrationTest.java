@@ -1,10 +1,7 @@
 import com.codeborne.selenide.Configuration;
 import generators.UserGenerator;
-import models.Credentials;
 import models.User;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import pom.RegistrationPage;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -41,7 +38,6 @@ public class RegistrationTest {
         RegistrationPage registrationPage = open("https://stellarburgers.nomoreparties.site/", RegistrationPage.class);
 
         User user = UserGenerator.getDefault();
-        //Credentials credentials = Credentials.from(user);
 
         registrationPage.personalCabinet();
         registrationPage.openRegistrationForm(user.name, user.email, user.password);

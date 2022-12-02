@@ -3,9 +3,10 @@ package pom;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
+import java.security.PublicKey;
+
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -28,7 +29,9 @@ public class RegistrationPage {
             loginEmailInput = $(byXpath("//div/h2[text()='Вход']/following::form/fieldset[1]/div/div/input")),
             loginPasswordInput = $(byXpath("//div/h2[text()='Вход']/following::form/fieldset[2]/div/div/input")),
 
-            loginFromPersonalCabibetButton = $$("button").findBy(Condition.text("Войти"));
+            loginFromPersonalCabinetButton = $$("button").findBy(Condition.text("Войти")),
+            loginOnMainPageButton = $$("button").findBy(Condition.text("Войти в аккаунт")),
+            logoLink = $("a[class=AppHeader_header__link__3D_hX]");
 
     //Переход в Личный кабинет
     public void personalCabinet() {
@@ -48,8 +51,9 @@ public class RegistrationPage {
         registrationFormPassInput.clear();
         registrationFormPassInput.sendKeys(password);
     }
+
     //нажатие кнопки Зарегистрироваться
-    public void registrationSubmit(){
+    public void registrationSubmit() {
         registrationSubmitButton.should(enabled);
         registrationSubmitButton.should(Condition.interactable);
         registrationSubmitButton.click();
@@ -77,9 +81,23 @@ public class RegistrationPage {
     }
 
     //нажатие кнопки Войти
-    public void LoginSubmit(){
+    public void LoginSubmit() {
         loginSubmitButton.should(enabled);
         loginSubmitButton.should(Condition.interactable);
         loginSubmitButton.click();
+    }
+
+    //нажатие на логотип
+    public void logoLink() {
+        logoLink.click();
+    }
+
+    //Вход по кнопке Войти на главной странице
+    public void loginOnMainPage(String email, String password){
+        loginOnMainPageButton.click();
+        loginEmailInput.click();
+        loginEmailInput.sendKeys(email);
+        loginPasswordInput.click();
+        loginPasswordInput.sendKeys(password);
     }
 }
