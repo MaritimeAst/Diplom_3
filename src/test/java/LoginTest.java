@@ -12,6 +12,7 @@ import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.url;
 
 public class LoginTest {
+    RegistrationPage registrationPage = new RegistrationPage();
     private UserClient userClient;
     private User user;
 
@@ -19,12 +20,12 @@ public class LoginTest {
     public void userGeneration(){
         user = UserGenerator.getDefault();
         userClient = new UserClient();
+        registrationPage = open("https://stellarburgers.nomoreparties.site/register", RegistrationPage.class);
     }
 
     @Test
     public void loginAfterRegistration() {
 
-        RegistrationPage registrationPage = open("https://stellarburgers.nomoreparties.site/register", RegistrationPage.class);
         registrationPage.personalCabinet();
         registrationPage.openRegistrationForm(user.name, user.email, user.password);
         registrationPage.registrationSubmit();
@@ -38,7 +39,6 @@ public class LoginTest {
 
     @Test
     public void loginFromMainPage() {
-        RegistrationPage registrationPage = open("https://stellarburgers.nomoreparties.site/register", RegistrationPage.class);
 
         registrationPage.personalCabinet();
         registrationPage.openRegistrationForm(user.name, user.email, user.password);
@@ -51,7 +51,6 @@ public class LoginTest {
 
     @Test
     public void logout() {
-        RegistrationPage registrationPage = open("https://stellarburgers.nomoreparties.site/login", RegistrationPage.class);
         registrationPage.personalCabinet();
         registrationPage.openRegistrationForm(user.name, user.email, user.password);
         registrationPage.registrationSubmit();                                                              //Регистрация нового пользователя

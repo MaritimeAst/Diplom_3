@@ -10,7 +10,7 @@ public class RegistrationErrorTest {
     @Test
     public void registrationAvailable() {
         //Для дебага, не закрывает браузер после теста
-        Configuration.holdBrowserOpen = true;
+        //Configuration.holdBrowserOpen = true;
         RegistrationPage registrationPage = open("https://stellarburgers.nomoreparties.site/", RegistrationPage.class);
 
         User user = UserGenerator.getShortPassword();

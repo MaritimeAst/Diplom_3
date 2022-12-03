@@ -14,29 +14,24 @@ import static com.codeborne.selenide.WebDriverConditions.url;
 
 
 public class RegistrationTest {
+    RegistrationPage registrationPage = new RegistrationPage();
     private UserClient userClient;
     private User user;
 
     @Before
     public void userGeneration(){
+        registrationPage = open("https://stellarburgers.nomoreparties.site/", RegistrationPage.class);
         user = UserGenerator.getDefault();
         userClient = new UserClient();
     }
 
     @Test
     public void registrationAndLoginUserAvailable() {
-        //Для дебага, не закрывает браузер после теста
-        Configuration.holdBrowserOpen = true;
-        RegistrationPage registrationPage = open("https://stellarburgers.nomoreparties.site/", RegistrationPage.class);
-
-        //User user = UserGenerator.getDefault();
 
         registrationPage.personalCabinet();
         registrationPage.openRegistrationForm(user.name, user.email, user.password);
         registrationPage.registrationSubmit();
-
-        System.out.println(user.email);
-        System.out.println(user.password);
+        
         registrationPage.loginAfterRegistration(user.email, user.password);
         registrationPage.LoginSubmit();
         webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
