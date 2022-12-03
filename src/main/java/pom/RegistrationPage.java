@@ -3,8 +3,6 @@ package pom;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
-import java.security.PublicKey;
-
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byXpath;
@@ -31,7 +29,11 @@ public class RegistrationPage {
 
             loginFromPersonalCabinetButton = $$("button").findBy(Condition.text("Войти")),
             loginOnMainPageButton = $$("button").findBy(Condition.text("Войти в аккаунт")),
-            logoLink = $("a[class=AppHeader_header__link__3D_hX]");
+            logoLink = $(byXpath("//div/header/nav/div/a")),
+            constructorLink = $(byXpath("//div/header/nav/ul/li[1]/a")),
+            logoutButton = $$("button").findBy(Condition.text("Выход")),
+            loginFromMainPage = $(byXpath("//div/main/div/form/button"));
+
 
     //Переход в Личный кабинет
     public void personalCabinet() {
@@ -87,17 +89,28 @@ public class RegistrationPage {
         loginSubmitButton.click();
     }
 
-    //нажатие на логотип
-    public void logoLink() {
+    //Переход на главную страницу о нажатию на логотип
+    public void transitionByLogoLink() {
         logoLink.click();
     }
 
+    //Переход на главную страницу о нажатию на кнопку Конструктор
+    public void transitionByConstructorLink() {
+        constructorLink.click();
+    }
+
     //Вход по кнопке Войти на главной странице
-    public void loginOnMainPage(String email, String password){
+    public void loginOnMainPage(String email, String password) {
         loginOnMainPageButton.click();
         loginEmailInput.click();
         loginEmailInput.sendKeys(email);
         loginPasswordInput.click();
         loginPasswordInput.sendKeys(password);
+        loginFromMainPage.click();
+    }
+
+    //Переход в Личный кабинет
+    public void logout() {
+        logoutButton.click();
     }
 }
