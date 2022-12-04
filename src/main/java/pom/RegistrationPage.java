@@ -1,6 +1,7 @@
 package pom;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Condition.enabled;
@@ -32,7 +33,9 @@ public class RegistrationPage {
             logoLink = $(byXpath("//div/header/nav/div/a")),
             constructorLink = $(byXpath("//div/header/nav/ul/li[1]/a")),
             logoutButton = $$("button").findBy(Condition.text("Выход")),
-            loginFromMainPage = $(byXpath("//div/main/div/form/button"));
+            loginFromMainPage = $(byXpath("//div/main/div/form/button")),
+            restorePasswordLink = $$("a").findBy(Condition.text("Восстановить пароль")),
+            loginFromRestorePasswordLink = $(byXpath("//div/main/div/div/p/a[text()='Войти']"));
 
 
     //Переход в Личный кабинет
@@ -83,10 +86,11 @@ public class RegistrationPage {
     }
 
     //нажатие кнопки Войти
-    public void LoginSubmit() {
+    public void loginSubmit() {
         loginSubmitButton.should(enabled);
         loginSubmitButton.should(Condition.interactable);
         loginSubmitButton.click();
+
     }
 
     //Переход на главную страницу о нажатию на логотип
@@ -106,11 +110,25 @@ public class RegistrationPage {
         loginEmailInput.sendKeys(email);
         loginPasswordInput.click();
         loginPasswordInput.sendKeys(password);
-        loginFromMainPage.click();
     }
 
     //Переход в Личный кабинет
     public void logout() {
         logoutButton.click();
     }
+
+    //Вход из восстановления пароля
+    public void loginFromRestorePassword() {
+        restorePasswordLink.should(enabled);
+        restorePasswordLink.should(Condition.interactable);
+        restorePasswordLink.click();
+        Configuration.timeout = 300;
+        loginFromRestorePasswordLink.should(enabled);
+        loginFromRestorePasswordLink.should(Condition.interactable);
+        loginFromRestorePasswordLink.click();
+        Configuration.timeout = 300;
+
+    }
+
+
 }

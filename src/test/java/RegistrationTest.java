@@ -31,9 +31,8 @@ public class RegistrationTest {
         registrationPage.personalCabinet();
         registrationPage.openRegistrationForm(user.name, user.email, user.password);
         registrationPage.registrationSubmit();
-        
         registrationPage.loginAfterRegistration(user.email, user.password);
-        registrationPage.LoginSubmit();
+        registrationPage.loginSubmit();
         webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
     }
 

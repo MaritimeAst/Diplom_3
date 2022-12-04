@@ -25,6 +25,7 @@ public class UserClient {
     public ValidatableResponse delete(String accessToken) {
         return given()
                 .spec(getSpec())
+                .log().all()
                 .header("Authorization", accessToken)
                 .when()
                 .delete(DELETE_USER_PATH)
