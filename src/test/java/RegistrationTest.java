@@ -1,12 +1,12 @@
 import clients.UserClient;
-import com.codeborne.selenide.Configuration;
 import generators.UserGenerator;
+import io.qameta.allure.Description;
 import io.restassured.response.ValidatableResponse;
 import models.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import pom.RegistrationPage;
+import pom.PersonalCabinetPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.webdriver;
@@ -14,25 +14,26 @@ import static com.codeborne.selenide.WebDriverConditions.url;
 
 
 public class RegistrationTest {
-    RegistrationPage registrationPage = new RegistrationPage();
+    PersonalCabinetPage personalCabinetPage = new PersonalCabinetPage();
     private UserClient userClient;
     private User user;
 
     @Before
     public void userGeneration(){
-        registrationPage = open("https://stellarburgers.nomoreparties.site/", RegistrationPage.class);
+        personalCabinetPage = open("https://stellarburgers.nomoreparties.site/", PersonalCabinetPage.class);
         user = UserGenerator.getDefault();
         userClient = new UserClient();
     }
 
     @Test
+    @Description("Проверка регистрации нового пользователя. Позитивный сценарий")
     public void registrationAndLoginUserAvailable() {
 
-        registrationPage.personalCabinet();
-        registrationPage.openRegistrationForm(user.name, user.email, user.password);
-        registrationPage.registrationSubmit();
-        registrationPage.loginAfterRegistration(user.email, user.password);
-        registrationPage.loginSubmit();
+        personalCabinetPage.personalCabinet();
+        personalCabinetPage.registration(user.name, user.email, user.password);
+        personalCabinetPage.registrationSubmit();
+        personalCabinetPage.login(user.email, user.password);
+        personalCabinetPage.loginSubmit();
         webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
     }
 

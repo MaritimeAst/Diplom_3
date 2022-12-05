@@ -21,7 +21,7 @@ public class UserClient {
                 .build();
     }
 
-    @Step("Удаление пользователя")
+    @Step("Вызов метода API: удаление пользователя с использованием accessToken")
     public ValidatableResponse delete(String accessToken) {
         return given()
                 .spec(getSpec())
@@ -33,7 +33,7 @@ public class UserClient {
                 .statusCode(202);
     }
 
-    @Step("Логин с кредами пользователя")
+    @Step("Вызов метода API: логин с кредами зарегистрированного пользователя, для получения accessToken")
     public ValidatableResponse login(String login, String password){
         return given()
                 .spec(getSpec())

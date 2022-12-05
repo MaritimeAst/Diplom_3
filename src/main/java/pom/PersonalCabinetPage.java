@@ -3,6 +3,7 @@ package pom;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.visible;
@@ -10,9 +11,7 @@ import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-public class RegistrationPage {
-
-    //private final static String PAGE_URL = "https://stellarburgers.nomoreparties.site/";
+public class PersonalCabinetPage {
 
     private final SelenideElement
 
@@ -23,28 +22,23 @@ public class RegistrationPage {
             registrationFormPassInput = $("input[type=password]"),
             registrationSubmitButton = $$("button").findBy(Condition.text("Зарегистрироваться")),
             registrationError = $$("p").findBy(Condition.text("Некорректный пароль")),
-            loginAfterRegistrationLink = $$("a").findBy(Condition.text("Войти")),
             loginSubmitButton = $$("button").findBy(Condition.text("Войти")),
             loginEmailInput = $(byXpath("//div/h2[text()='Вход']/following::form/fieldset[1]/div/div/input")),
             loginPasswordInput = $(byXpath("//div/h2[text()='Вход']/following::form/fieldset[2]/div/div/input")),
-
-            loginFromPersonalCabinetButton = $$("button").findBy(Condition.text("Войти")),
             loginOnMainPageButton = $$("button").findBy(Condition.text("Войти в аккаунт")),
             logoLink = $(byXpath("//div/header/nav/div/a")),
             constructorLink = $(byXpath("//div/header/nav/ul/li[1]/a")),
             logoutButton = $$("button").findBy(Condition.text("Выход")),
-            loginFromMainPage = $(byXpath("//div/main/div/form/button")),
             restorePasswordLink = $$("a").findBy(Condition.text("Восстановить пароль")),
             loginFromRestorePasswordLink = $(byXpath("//div/main/div/div/p/a[text()='Войти']"));
 
-
-    //Переход в Личный кабинет
+    @Step("Переход в Личный кабинет")
     public void personalCabinet() {
         openPersonalCabinetButton.click();
     }
 
-    //заполнение формы регистрации
-    public void openRegistrationForm(String name, String email, String password) {
+    @Step("заполнение формы регистрации")
+    public void registration(String name, String email, String password) {
         registrationButton.click();
         registrationFormNameInput.click();
         registrationFormNameInput.clear();
@@ -57,78 +51,64 @@ public class RegistrationPage {
         registrationFormPassInput.sendKeys(password);
     }
 
-    //нажатие кнопки Зарегистрироваться
+    @Step("Вход на странице Личный кабинет")
+    public void login(String email, String password) {
+        loginEmailInput.click();
+        loginEmailInput.sendKeys(email);
+        loginPasswordInput.click();
+        loginPasswordInput.sendKeys(password);
+    }
+
+    @Step("Нажатие кнопки Войти")
+    public void loginSubmit() {
+        loginSubmitButton.should(enabled);
+        loginSubmitButton.should(Condition.interactable);
+        Configuration.timeout = 600;
+        loginSubmitButton.click();
+    }
+
+    @Step("Нажатие кнопки Зарегистрироваться")
     public void registrationSubmit() {
         registrationSubmitButton.should(enabled);
         registrationSubmitButton.should(Condition.interactable);
         registrationSubmitButton.click();
     }
 
-    //отображение ошибки Некорректный пароль
+    @Step("Отображение ошибки Некорректный пароль")
     public void registrationPasswordError() {
         registrationError.shouldBe(visible);
     }
 
-    //вход из личного кабинета
-    public void loginFromPersonalCabinet(String email, String password) {
-        loginEmailInput.click();
-        loginEmailInput.sendKeys(email);
-        loginPasswordInput.click();
-        loginPasswordInput.sendKeys(password);
-    }
 
-    //вход по ссылке после регистрации
-    public void loginAfterRegistration(String email, String password) {
-        loginEmailInput.click();
-        loginEmailInput.sendKeys(email);
-        loginPasswordInput.click();
-        loginPasswordInput.sendKeys(password);
-    }
-
-    //нажатие кнопки Войти
-    public void loginSubmit() {
-        loginSubmitButton.should(enabled);
-        loginSubmitButton.should(Condition.interactable);
-        loginSubmitButton.click();
-
-    }
-
-    //Переход на главную страницу о нажатию на логотип
+    @Step("Переход на главную страницу по нажатию на логотип")
     public void transitionByLogoLink() {
         logoLink.click();
     }
 
-    //Переход на главную страницу о нажатию на кнопку Конструктор
+    @Step("Переход на главную страницу по нажатию на кнопку Конструктор")
     public void transitionByConstructorLink() {
         constructorLink.click();
     }
 
-    //Вход по кнопке Войти на главной странице
-    public void loginOnMainPage(String email, String password) {
+    @Step("Вход по кнопке Войти на главной странице")
+    public void loginOnMainPage() {
+        loginOnMainPageButton.shouldBe(Condition.enabled);
+        loginOnMainPageButton.shouldBe(Condition.interactable);
         loginOnMainPageButton.click();
-        loginEmailInput.click();
-        loginEmailInput.sendKeys(email);
-        loginPasswordInput.click();
-        loginPasswordInput.sendKeys(password);
     }
 
-    //Переход в Личный кабинет
+    @Step("Нажатие на кнопку Выход в Личном кабинете")
     public void logout() {
         logoutButton.click();
     }
 
-    //Вход из восстановления пароля
+    @Step("Вход по ссылке, на странице восстановления пароля")
     public void loginFromRestorePassword() {
         restorePasswordLink.should(enabled);
         restorePasswordLink.should(Condition.interactable);
         restorePasswordLink.click();
-        Configuration.timeout = 300;
         loginFromRestorePasswordLink.should(enabled);
         loginFromRestorePasswordLink.should(Condition.interactable);
         loginFromRestorePasswordLink.click();
-        Configuration.timeout = 300;
-
     }
-
-
 }
