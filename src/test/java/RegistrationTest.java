@@ -20,6 +20,14 @@ public class RegistrationTest {
 
     @Before
     public void userGeneration(){
+
+//        System.setProperty("webdriver.chrome.driver","src/test/resources/chromedriver.exe");  // Для запуска тестов в ЯндексБраузере
+//        ChromeOptions options=new ChromeOptions();
+//        options.setBinary("C:\\Users\\Marina\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
+//        WebDriver webDriver= new ChromeDriver(options);
+
+//         Configuration.browser = System.getProperty("browser", "firefox");                         //для запуска тестов в firefox
+
         personalCabinetPage = open("https://stellarburgers.nomoreparties.site/", PersonalCabinetPage.class);
         user = UserGenerator.getDefault();
         userClient = new UserClient();

@@ -1,4 +1,5 @@
 import clients.UserClient;
+import com.codeborne.selenide.Configuration;
 import generators.UserGenerator;
 import io.qameta.allure.Description;
 import io.restassured.response.ValidatableResponse;
@@ -6,6 +7,9 @@ import models.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pom.PersonalCabinetPage;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -20,8 +24,14 @@ public class LoginTest {
 
     @Before
     public void userGeneration(){
-        //Для дебага, не закрывает браузер после теста
-        //Configuration.holdBrowserOpen = true;
+
+//        Configuration.holdBrowserOpen = true;         //Для дебага, не закрывает браузер после теста
+
+//        System.setProperty("webdriver.chrome.driver","src/test/resources/chromedriver.exe");  // Для запуска тестов в ЯндексБраузеое
+//        ChromeOptions options=new ChromeOptions();
+//        options.setBinary("C:\\Users\\Marina\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
+//        WebDriver webDriver= new ChromeDriver(options);
+
         user = UserGenerator.getDefault();
         userClient = new UserClient();
         personalCabinetPage = open("https://stellarburgers.nomoreparties.site", PersonalCabinetPage.class);
