@@ -3,6 +3,7 @@ import io.qameta.allure.Description;
 import org.junit.Test;
 import pom.PersonalCabinetPage;
 
+import static clients.UserClient.*;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.url;
@@ -18,24 +19,24 @@ public class TransitionTest {
     @Test
     @Description("Проверка возможности перехода с основной страницы, на страницу Личный кабинет")
     public void transitionByPersonalCabinetLink() {
-        PersonalCabinetPage personalCabinetPage = open("https://stellarburgers.nomoreparties.site", PersonalCabinetPage.class);
+        PersonalCabinetPage personalCabinetPage = open(MAIN_UI_URL, PersonalCabinetPage.class);
         personalCabinetPage.personalCabinet();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/login"));
+        webdriver().shouldHave(url(LOGIN_URL));
     }
 
     @Test
     @Description("Проверка возможности перехода со страницы Личный кабинет, на главную страницу по логотипу")
     public void transitionByLogoLink() {
-        PersonalCabinetPage personalCabinetPage = open("https://stellarburgers.nomoreparties.site/login", PersonalCabinetPage.class);
+        PersonalCabinetPage personalCabinetPage = open(MAIN_UI_URL, PersonalCabinetPage.class);
         personalCabinetPage.transitionByLogoLink();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
+        webdriver().shouldHave(url(MAIN_URL));
     }
 
     @Test
     @Description("Проверка возможности перехода со страницы Личный кабинет, на главную страницу по кнопке Конструктор")
     public void transitionByConstructorLink() {
-        PersonalCabinetPage personalCabinetPage = open("https://stellarburgers.nomoreparties.site/login", PersonalCabinetPage.class);
+        PersonalCabinetPage personalCabinetPage = open(LOGIN_URL, PersonalCabinetPage.class);
         personalCabinetPage.transitionByConstructorLink();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
+        webdriver().shouldHave(url(MAIN_URL));
     }
 }

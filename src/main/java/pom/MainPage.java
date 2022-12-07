@@ -4,34 +4,44 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 
+import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class MainPage {
     private final SelenideElement
-            bunDiv = $$("span").findBy(Condition.text("Булки")),
-            bunH2 = $$("h2").findBy(Condition.text("Булки")),
-            sauceDiv = $$("span").findBy(Condition.text("Соусы")),
-            sauceH2 = $$("h2").findBy(Condition.text("Соусы")),
-            fillingDiv = $$("span").findBy(Condition.text("Начинки")),
-            fillingH2 = $$("h2").findBy(Condition.text("Начинки"));
+            bunsButton = $(byXpath("//div/main/section[1]/div[1]/div[1]")),
+            saucesButton = $(byXpath("//div/main/section[1]/div[1]/div[2]")),
+            fillingButton = $(byXpath("//div/main/section[1]/div[1]/div[3]"));
 
 
-    @Step("Переход к разделу Булки")
-    public void transitionToBun(){
-        bunDiv.click();
-        bunH2.shouldBe(Condition.visible);
+    @Step("Клик по табу 'Булки'")
+    public void clickBunsButton() {
+        bunsButton.click();
     }
 
-    @Step("Переход к разделу Соусы")
-    public void transitionToSauce(){
-        sauceDiv.click();
-        sauceH2.shouldBe(Condition.visible);
+    @Step("Клик по табу 'Соусы'")
+    public void clickSausesButton() {
+        saucesButton.click();
     }
 
-    @Step("Переход к разделу Начинки")
-    public void transitionToFilling(){
-        fillingDiv.click();
-        fillingH2.shouldBe(Condition.visible);
+    @Step("Клик по табу 'Начинки'")
+    public void clickFillingButton() {
+        fillingButton.click();
+    }
+
+    @Step("Получить class таба 'Булки'")
+    public String getClassBunsButton() {
+        return bunsButton.getAttribute("class");
+    }
+
+    @Step("Получить class таба 'Соусы'")
+    public String getClassSaucesButton() {
+        return saucesButton.getAttribute("class");
+    }
+
+    @Step("Получить class таба 'Начинки'")
+    public String getClassFillingButton() {
+        return fillingButton.getAttribute("class");
     }
 }

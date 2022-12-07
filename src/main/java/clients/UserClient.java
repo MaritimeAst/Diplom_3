@@ -11,6 +11,10 @@ import static io.restassured.RestAssured.given;
 public class UserClient {
 
     private static final String BASE_URL = "https://stellarburgers.nomoreparties.site/api";
+    public static final String MAIN_URL = "https://stellarburgers.nomoreparties.site/";
+    public static final String MAIN_UI_URL = "https://stellarburgers.nomoreparties.site";
+    public static final String LOGIN_URL = "https://stellarburgers.nomoreparties.site/login";
+    public static final String PROFILE_URL = "https://stellarburgers.nomoreparties.site/account/profile";
     private static final String DELETE_USER_PATH = "/auth/user";
     private static final String LOGIN_USER_PATH = "/auth/login";
 
@@ -25,7 +29,6 @@ public class UserClient {
     public ValidatableResponse delete(String accessToken) {
         return given()
                 .spec(getSpec())
-                .log().all()
                 .header("Authorization", accessToken)
                 .when()
                 .delete(DELETE_USER_PATH)
@@ -37,11 +40,9 @@ public class UserClient {
     public ValidatableResponse login(String login, String password){
         return given()
                 .spec(getSpec())
-                .log().all()
                 .body("{ \"email\": \"" +  login + "\", \"password\": \""  + password + "\"}")
                 .when()
                 .post(LOGIN_USER_PATH)
-                .then()
-                .log().all();
+                .then();
     }
 }

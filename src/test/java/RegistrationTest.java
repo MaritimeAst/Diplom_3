@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pom.PersonalCabinetPage;
 
+import static clients.UserClient.MAIN_URL;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.url;
@@ -28,7 +29,7 @@ public class RegistrationTest {
 
 //         Configuration.browser = System.getProperty("browser", "firefox");                         //для запуска тестов в firefox
 
-        personalCabinetPage = open("https://stellarburgers.nomoreparties.site/", PersonalCabinetPage.class);
+        personalCabinetPage = open(MAIN_URL, PersonalCabinetPage.class);
         user = UserGenerator.getDefault();
         userClient = new UserClient();
     }
@@ -38,16 +39,16 @@ public class RegistrationTest {
     public void registrationAndLoginUserAvailable() {
 
         personalCabinetPage.personalCabinet();
-        personalCabinetPage.registration(user.name, user.email, user.password);
+        personalCabinetPage.registration(user.getName(), user.getEmail(), user.getPassword());
         personalCabinetPage.registrationSubmit();
-        personalCabinetPage.login(user.email, user.password);
+        personalCabinetPage.login(user.getEmail(), user.getPassword());
         personalCabinetPage.loginSubmit();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
+        webdriver().shouldHave(url(MAIN_URL));
     }
 
     @After
     public void cleanUp() {
-        ValidatableResponse responseLogin = userClient.login(user.email, user.password);
+        ValidatableResponse responseLogin = userClient.login(user.getEmail(), user.getPassword());
         String accessToken = responseLogin.extract().path("accessToken");
         userClient.delete(accessToken);
     }

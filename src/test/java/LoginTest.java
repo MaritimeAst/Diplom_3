@@ -12,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import pom.PersonalCabinetPage;
 
+import static clients.UserClient.*;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.url;
@@ -34,11 +35,11 @@ public class LoginTest {
 
         user = UserGenerator.getDefault();
         userClient = new UserClient();
-        personalCabinetPage = open("https://stellarburgers.nomoreparties.site", PersonalCabinetPage.class);
+        personalCabinetPage = open(MAIN_UI_URL, PersonalCabinetPage.class);
         personalCabinetPage.personalCabinet();
-        personalCabinetPage.registration(user.name, user.email, user.password);
+        personalCabinetPage.registration(user.getName(), user.getEmail(), user.getPassword());
         personalCabinetPage.registrationSubmit();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/login"));
+        webdriver().shouldHave(url(LOGIN_URL));
     }
 
     @Test
@@ -46,12 +47,12 @@ public class LoginTest {
     public void loginOnMainPage() {
 
         personalCabinetPage.transitionByLogoLink();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
+        webdriver().shouldHave(url(MAIN_URL));
         personalCabinetPage.loginOnMainPage();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/login"));
-        personalCabinetPage.login(user.email, user.password);
+        webdriver().shouldHave(url(LOGIN_URL));
+        personalCabinetPage.login(user.getEmail(), user.getPassword());
         personalCabinetPage.loginSubmit();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
+        webdriver().shouldHave(url(MAIN_URL));
     }
 
     @Test
@@ -59,19 +60,19 @@ public class LoginTest {
     public void loginFromPersonalCabinet(){
 
         personalCabinetPage.personalCabinet();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/login"));
-        personalCabinetPage.login(user.email, user.password);
+        webdriver().shouldHave(url(LOGIN_URL));
+        personalCabinetPage.login(user.getEmail(), user.getPassword());
         personalCabinetPage.loginSubmit();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
+        webdriver().shouldHave(url(MAIN_URL));
     }
 
     @Test
     @Description("Проверка возможности входа через кнопку в форме регистрации")
     public void loginAfterRegistration() {
 
-        personalCabinetPage.login(user.email, user.password);
+        personalCabinetPage.login(user.getEmail(), user.getPassword());
         personalCabinetPage.loginSubmit();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
+        webdriver().shouldHave(url(MAIN_URL));
     }
 
     @Test
@@ -80,28 +81,28 @@ public class LoginTest {
 
         personalCabinetPage.personalCabinet();
         personalCabinetPage.loginFromRestorePassword();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/login"));
-        personalCabinetPage.login(user.email, user.password);
+        webdriver().shouldHave(url(LOGIN_URL));
+        personalCabinetPage.login(user.getEmail(), user.getPassword());
         personalCabinetPage.loginSubmit();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
+        webdriver().shouldHave(url(MAIN_URL));
     }
 
     @Test
     @Description("Проверка возможности выхода")
     public void logout() {
 
-        personalCabinetPage.login(user.email, user.password);                                                   //Логин
+        personalCabinetPage.login(user.getEmail(), user.getPassword());                                                  //Логин
         personalCabinetPage.loginSubmit();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
+        webdriver().shouldHave(url(MAIN_URL));
         personalCabinetPage.personalCabinet();                                                                 //Переход в личный кабинет
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/account/profile"));
+        webdriver().shouldHave(url(PROFILE_URL));
         personalCabinetPage.logout();                                                                          //Выход
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/login"));
+        webdriver().shouldHave(url(LOGIN_URL));
     }
 
     @After
     public void cleanUp() {
-        ValidatableResponse responseLogin = userClient.login(user.email, user.password);                    //логин зарегистрированным пользователем при помощи restAssured для получения accessToken
+        ValidatableResponse responseLogin = userClient.login(user.getEmail(), user.getPassword());                    //логин зарегистрированным пользователем при помощи restAssured для получения accessToken
         String accessToken = responseLogin.extract().path("accessToken");
         userClient.delete(accessToken);                                                                     //Удаление зарегистрированного пользователя
     }                                                                                                       //Закрытие окна браузера выполняет Selenide

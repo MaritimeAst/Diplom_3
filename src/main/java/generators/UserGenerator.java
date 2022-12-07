@@ -3,7 +3,7 @@ package generators;
 import models.User;
 
 public class UserGenerator {
-    private static String email = "UserTest" + (int) (Math.random() * 1000) + "@yandex.ru";
+    private static String email = "UserTestName" + (int) (Math.random() * 1000) + "@yandex.ru";
 
     public static User getDefault() {
         return new User(email, "password", "UserTest");

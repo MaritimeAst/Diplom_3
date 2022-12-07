@@ -79,7 +79,6 @@ public class PersonalCabinetPage {
         registrationError.shouldBe(visible);
     }
 
-
     @Step("Переход на главную страницу по нажатию на логотип")
     public void transitionByLogoLink() {
         logoLink.click();
